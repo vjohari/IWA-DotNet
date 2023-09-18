@@ -21,7 +21,9 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: |
+        ls -l
+        dotnet restore IWA.NET.sln
     - name: Build
       run: dotnet build IWA.NET.sln --no-restore
     - name: Test
