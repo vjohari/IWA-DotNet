@@ -45,7 +45,6 @@ jobs:
         uses: actions/setup-dotnet@v3
         with:
          dotnet-version: |
-          3.1.x
           6.0.x
           7.0.x
       - name: Restore dependencies
@@ -76,7 +75,7 @@ jobs:
           version: 23.1.0
       - name: testing evn
         run: |
-           echo %PATH$
+           echo %PATH%
            dir 
       - name: Package Code + Dependencies
         run: scancentral package $PACKAGE_OPTS -o package.zip
