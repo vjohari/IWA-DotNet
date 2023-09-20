@@ -23,7 +23,7 @@ jobs:
     - name: Restore dependencies
       run: |
         dotnet tool install --global dotnet-ef
-        dotnet tool restore IWA.NET.sln
+        dotnet tool restore 
         dotnet ef database update
     - name: Build
       run: dotnet clean build IWA.NET.sln --no-restore -p:Configuration=Debug
