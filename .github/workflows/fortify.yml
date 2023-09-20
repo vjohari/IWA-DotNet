@@ -75,12 +75,13 @@ jobs:
           version: 23.1.0
       - name: testing evn
         run: |
-           echo %PATH%
+           $Env:Path
            dir 
       - name: Package Code + Dependencies
         run: scancentral package $PACKAGE_OPTS -o package.zip
         env:
-          PACKAGE_OPTS: "-bt msbuild -bf IWA.Net.sln /p:Configuration=Debug /t:Clean,Build -oss"
+          PACKAGE_OPTS: "-bt msbuild -bf IWA.Net.sln -oss"
+          # /p:Configuration=Debug /t:Clean,Build
 
       # Start Fortify on Demand SAST scan and wait until results complete. For more information on FoDUploader commands, see https://github.com/fod-dev/fod-uploader-java
       # TODO: Update ENV variables for your application and create the necessary GitHub Secrets.  Helpful hints:
