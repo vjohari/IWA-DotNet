@@ -75,6 +75,7 @@ jobs:
           version: 23.1.0
       - name: testing evn
         run: |
+           $Env:PATH += ";C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\bin"
            $Env:Path
            dir 
       - name: Package Code + Dependencies
