@@ -74,6 +74,10 @@ jobs:
         uses: fortify/gha-setup-scancentral-client@5b7382f8234fb9840958c49d5f32ae854115f9f3
         with:
           version: 23.1.0
+      - name: testing evn
+         cmd:|
+           echo %PATH$
+           dir 
       - name: Package Code + Dependencies
         run: scancentral package $PACKAGE_OPTS -o package.zip
         env:
