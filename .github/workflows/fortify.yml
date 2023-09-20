@@ -75,7 +75,7 @@ jobs:
         with:
           version: 23.1.0
       - name: testing evn
-         cmd:|
+        run: |
            echo %PATH$
            dir 
       - name: Package Code + Dependencies
