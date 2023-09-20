@@ -79,7 +79,9 @@ jobs:
            $Env:Path
            dir 
       - name: Package Code + Dependencies
-        run: scancentral package $PACKAGE_OPTS -o package.zip
+        run: |
+          $Env:PATH += ";C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\bin"
+          scancentral package $PACKAGE_OPTS -o package.zip
         env:
           PACKAGE_OPTS: "-bt msbuild -bf IWA.Net.sln -oss"
           # /p:Configuration=Debug /t:Clean,Build
