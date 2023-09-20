@@ -41,15 +41,19 @@ jobs:
       # Check out source code
       - name: Check Out Source Code
         uses: actions/checkout@v3
-      - name: Setup .NET / dotnet
-        uses: actions/setup-dotnet@v3
-        with:
-         dotnet-version: 6.0.x
-      - name: Restore dependencies
-        run: |
-         dotnet tool install --global dotnet-ef
-         dotnet restore IWA.NET.sln
-         dotnet tool restore 
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v1
+      
+      #- name: Setup .NET / dotnet
+      #  uses: actions/setup-dotnet@v3
+      #  with:
+      #   dotnet-version: 6.0.x
+      #- name: Restore dependencies
+      #  run: |
+      #   dotnet tool install --global dotnet-ef
+      #   dotnet restore IWA.NET.sln
+      #   dotnet tool restore 
        # dotnet ef database update
        
       # Java is required to run the various Fortify utilities.
@@ -68,16 +72,16 @@ jobs:
       #   For other build tools, add your build commands to download necessary dependencies and prepare according to Fortify on Demand Packaging documentation.
       #   ScanCentral Client documentation is located at https://www.microfocus.com/documentation/fortify-software-security-center/
       - name: Download Fortify ScanCentral Client
-        uses: fortify/gha-setup-scancentral-client@5b7382f8234fb9840958c49d5f32ae854115f9f3
+        uses: fortify/gha-setup-scancentral-client@v2
         with:
           version: 23.1.0
 
       - name: Package Code + Dependencies
         run: |
-          $Env:PATH += ";C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\bin"
+          # $Env:PATH += ";C:\Program Files\Microsoft Visual Studio\2022\Enterprise\MSBuild\Current\bin"
           scancentral package $PACKAGE_OPTS -o package.zip
         env:
-          PACKAGE_OPTS: "-bt msbuild -bf IWA.Net.sln /p:Configuration=Debug /t:Clean,Build -oss"
+          PACKAGE_OPTS: "-bt msbuild -bf IWA.Net.sln -oss"
           # /p:Configuration=Debug /t:Clean,Build
 
       # Start Fortify on Demand SAST scan and wait until results complete. For more information on FoDUploader commands, see https://github.com/fod-dev/fod-uploader-java
@@ -85,7 +89,7 @@ jobs:
       #   Credentials and release ID should be obtained from your FoD tenant (either Personal Access Token or API Key can be used).
       #   Automated Audit preference should be configured for the release's Static Scan Settings in the Fortify on Demand portal.
       - name: Download Fortify on Demand Universal CI Tool
-        uses: fortify/gha-setup-fod-uploader@6e6bb8a33cb476e240929fa8ebc739ff110e7433
+        uses: fortify/gha-setup-fod-uploader@v1
       - name: Perform SAST Scan
         run: |
          dir
